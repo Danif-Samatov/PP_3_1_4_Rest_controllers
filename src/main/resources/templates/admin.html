@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/header :: assets('Admin panel')"></head>
+<body>
+<div th:replace="fragments/header :: navbar"></div>
+<div class="d-flex">
+    <div th:replace="fragments/header :: sidebar(active='admin')"></div>
+    <main class="content flex-grow-1">
+        <h1>Admin panel</h1>
+        <div id="pageError" class="alert alert-danger d-none" role="alert"></div>
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a id="usersTab" class="nav-link active" data-toggle="tab" href="#users-table" role="tab">Users table</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#new-user" role="tab">New User</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="users-table" role="tabpanel">
+                <div class="border border-top-0 bg-white">
+                    <div class="panel-heading">All users</div>
+                    <div class="p-3">
+                        <p id="emptyUsers" class="text-muted mb-0 d-none">No users yet.</p>
+                        <table id="usersTable" class="table table-striped text-center mb-0 d-none">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Age</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody id="usersBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="new-user" role="tabpanel">
+                <div class="border border-top-0 bg-white">
+                    <div class="panel-heading">Add new user</div>
+                    <form id="newUserForm" class="user-form text-center" autocomplete="off">
+                        <div id="newUserError" class="alert alert-danger d-none" role="alert"></div>
+                        <div class="form-group">
+                            <label for="newFirstName">First name</label>
+                            <input id="newFirstName" class="form-control" type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newLastName">Last name</label>
+                            <input id="newLastName" class="form-control" type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newAge">Age</label>
+                            <input id="newAge" class="form-control" type="number" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newEmail">Email</label>
+                            <input id="newEmail" class="form-control" type="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Password</label>
+                            <input id="newPassword" class="form-control" type="password" required autocomplete="new-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="newRoles">Role</label>
+                            <select id="newRoles" class="form-control" multiple size="2" required></select>
+                        </div>
+                        <button class="btn btn-success" type="submit">Add new user</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form id="editForm" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit user</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body px-5">
+                    <div id="editError" class="alert alert-danger d-none" role="alert"></div>
+                    <div class="form-group text-center">
+                        <label for="editId">ID</label>
+                        <input id="editId" class="form-control" disabled>
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="editFirstName">First name</label>
+                        <input id="editFirstName" class="form-control" type="text" required>
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="editLastName">Last name</label>
+                        <input id="editLastName" class="form-control" type="text" required>
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="editAge">Age</label>
+                        <input id="editAge" class="form-control" type="number" min="0" required>
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="editEmail">Email</label>
+                        <input id="editEmail" class="form-control" type="email" required>
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="editPassword">Password</label>
+                        <input id="editPassword" class="form-control" type="password" autocomplete="new-password">
+                    </div>
+                    <div class="form-group text-center mb-0">
+                        <label for="editRoles">Role</label>
+                        <select id="editRoles" class="form-control" multiple size="2" required></select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form id="deleteForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete user</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body px-5">
+                    <div id="deleteError" class="alert alert-danger d-none" role="alert"></div>
+                    <div class="form-group text-center">
+                        <label for="deleteId">ID</label>
+                        <input id="deleteId" class="form-control" disabled>
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="deleteFirstName">First name</label>
+                        <input id="deleteFirstName" class="form-control" disabled>
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="deleteLastName">Last name</label>
+                        <input id="deleteLastName" class="form-control" disabled>
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="deleteAge">Age</label>
+                        <input id="deleteAge" class="form-control" disabled>
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="deleteEmail">Email</label>
+                        <input id="deleteEmail" class="form-control" disabled>
+                    </div>
+                    <div class="form-group text-center mb-0">
+                        <label for="deleteRoles">Role</label>
+                        <select id="deleteRoles" class="form-control" multiple size="2" disabled></select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/header :: scripts"></div>
+<script th:src="@{/js/api.js}"></script>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

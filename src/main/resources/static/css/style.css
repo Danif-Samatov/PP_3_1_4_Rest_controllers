@@ -1,0 +1,100 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    width: 180px;
+    flex: 0 0 180px;
+    min-height: calc(100vh - 56px);
+    background: #fff;
+    border-right: 1px solid #dee2e6;
+    padding: 12px 10px 0;
+}
+
+.sidebar .nav-link {
+    margin-bottom: 2px;
+}
+
+.content {
+    padding: 1.25rem 1.75rem 2rem;
+}
+
+.content h1 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+}
+
+.panel-heading {
+    padding: 0.65rem 1rem;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.user-form {
+    max-width: 280px;
+    margin: 1.75rem auto 2rem;
+}
+
+.user-form label,
+.modal-body label {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.logout-btn {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.login-page {
+    background-color: #f8f9fa;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 100px auto 0;
+}
+
+.form-signin h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
