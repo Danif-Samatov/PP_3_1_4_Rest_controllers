@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.kata.spring.boot_security.demo.dto.RoleDto;
 import ru.kata.spring.boot_security.demo.dto.UserDto;
@@ -33,44 +33,45 @@ public class AdminRestController {
     }
 
     @GetMapping("/users")
-    public List<UserDto> users() {
-        return userService.listUsers().stream()
+    public ResponseEntity<List<UserDto>> users() {
+        List<UserDto> users = userService.listUsers().stream()
                 .map(UserMapper::toDto)
                 .collect(Collectors.toList());
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/users/{id}")
-    public UserDto user(@PathVariable Long id) {
-        return UserMapper.toDto(requiredUser(id));
+    public ResponseEntity<UserDto> user(@PathVariable Long id) {
+        return ResponseEntity.ok(UserMapper.toDto(requiredUser(id)));
     }
 
     @PostMapping("/users")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserDto create(@RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> create(@RequestBody UserDto dto) {
         User user = UserMapper.toEntity(dto);
         userService.add(user, dto.getRoleIds());
-        return UserMapper.toDto(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(user));
     }
 
     @PutMapping("/users/{id}")
-    public UserDto update(@PathVariable Long id, @RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> update(@PathVariable Long id, @RequestBody UserDto dto) {
         User user = UserMapper.toEntity(dto);
         user.setId(id);
         userService.update(user, dto.getRoleIds());
-        return UserMapper.toDto(requiredUser(id));
+        return ResponseEntity.ok(UserMapper.toDto(requiredUser(id)));
     }
 
     @DeleteMapping("/users/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/roles")
-    public List<RoleDto> roles() {
-        return roleService.listRoles().stream()
+    public ResponseEntity<List<RoleDto>> roles() {
+        List<RoleDto> roles = roleService.listRoles().stream()
                 .map(UserMapper::toDto)
                 .collect(Collectors.toList());
+        return ResponseEntity.ok(roles);
     }
 
     private User requiredUser(Long id) {

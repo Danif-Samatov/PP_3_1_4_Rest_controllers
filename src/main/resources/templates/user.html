@@ -7,7 +7,6 @@
     <div th:replace="fragments/header :: sidebar(active='user')"></div>
     <main class="content flex-grow-1">
         <h1>User information-page</h1>
-        <div id="userError" class="alert alert-danger d-none" role="alert"></div>
         <div class="border bg-white">
             <div class="panel-heading">About user</div>
             <div class="p-3">
@@ -23,14 +22,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr id="userRow"></tr>
+                    <tr>
+                        <td th:text="${#authentication.principal.id}"></td>
+                        <td th:text="${#authentication.principal.firstName}"></td>
+                        <td th:text="${#authentication.principal.lastName}"></td>
+                        <td th:text="${#authentication.principal.age}"></td>
+                        <td th:text="${#authentication.principal.email}"></td>
+                        <td th:text="${#authentication.principal.rolesAsString}"></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
 </div>
-<script th:src="@{/js/api.js}"></script>
-<script th:src="@{/js/user.js}"></script>
 </body>
 </html>
